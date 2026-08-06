@@ -300,6 +300,7 @@ DB last updated: 6 Aug 2026                         ← always visible, muted
 Every error message tells the pharmacist what to do next — not just what went wrong.
 
 **NAFDAC hotline (confirmed):** +234 (0) 700-1-623322
+**NAFDAC contact page:** https://nafdac.gov.ng/about-nafdac/contact-nafdac/
 
 > **Production upgrade notes (not built now):**
 > - Auto-retry once on transient network errors — important on Nigerian 3G
