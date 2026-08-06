@@ -47,12 +47,14 @@ Python scraper → SQLite (FTS5) → FastAPI → Claude Haiku → React (mobile-
        - Otherwise → exact case-insensitive match on drug_name
     2. Exact hit → VERIFIED (return card, no Claude call)
     3. No exact hit → FTS5 ranked search, top 5 candidates
-       - Top score ≥2× second score → single best match
+       - 1 candidate only → NOT_FOUND with that candidate as closest_match
+         └─ Claude Haiku: risk assessment + pharmacist action
+       - 2+ candidates, top score ≥2× second score → single best match
          └─ Claude Haiku: risk note ("closest match found, confirm details")
          └─ Return as MULTIPLE_MATCHES with one pre-highlighted entry
        - 2+ candidates roughly equal → MULTIPLE_MATCHES list
          └─ Claude Haiku: disambiguation guidance
-       - 0 candidates → NOT_FOUND
+       - 0 candidates → NOT_FOUND with empty closest_matches
          └─ Claude Haiku: risk assessment + pharmacist action
     4. If Claude unavailable → return result without summary (graceful degradation)
 
@@ -315,11 +317,10 @@ Every error message tells the pharmacist what to do next — not just what went 
 ```
 /backend
   main.py           FastAPI app
-  scraper.py        one-shot scraper (not deployed to Railway)
   requirements.txt
 
 /data
-  scrape.py         run locally, outputs drugs.db
+  scrape.py         run locally, outputs drugs.db (not deployed to Railway)
   drugs.db          committed to repo
 
 Railway config:
