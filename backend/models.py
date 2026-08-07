@@ -22,6 +22,8 @@ class DrugRecord(BaseModel):
     dosage_form: Optional[str] = None
     therapeutic_category: Optional[str] = None
     approval_date: Optional[str] = None
+    strength: Optional[str] = None
+    roa: Optional[str] = None
 
 
 class ClosestMatch(BaseModel):

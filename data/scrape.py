@@ -39,7 +39,9 @@ CREATE TABLE IF NOT EXISTS drugs (
     country_of_origin TEXT,
     dosage_form TEXT,
     therapeutic_category TEXT,
-    approval_date TEXT
+    approval_date TEXT,
+    strength TEXT,
+    roa TEXT
 );
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT);
 """
@@ -178,6 +180,12 @@ def parse_record(raw: dict) -> dict | None:
     if isinstance(raw.get('product_category'), dict):
         category_name = raw['product_category'].get('name', '').strip()
 
+    route_name = ''
+    if isinstance(raw.get('route'), dict):
+        route_name = raw['route'].get('name', '').strip()
+
+    strength = raw.get('strength', '').strip() if raw.get('strength') else ''
+
     clean_name = clean_drug_name(product_name)
     if not clean_name:
         return None  # Skip records where drug_name becomes empty after cleaning
@@ -191,6 +199,8 @@ def parse_record(raw: dict) -> dict | None:
         'dosage_form': form_name or None,
         'therapeutic_category': category_name or None,
         'approval_date': approval_date or None,
+        'strength': strength or None,
+        'roa': route_name or None,
     }
 
 
@@ -285,13 +295,14 @@ def main():
                 cursor = conn.execute(
                     """INSERT OR IGNORE INTO drugs
                        (drug_name, generic_name, reg_number, manufacturer,
-                        country_of_origin, dosage_form, therapeutic_category, approval_date)
-                       VALUES (?,?,?,?,?,?,?,?)""",
+                        country_of_origin, dosage_form, therapeutic_category, approval_date,
+                        strength, roa)
+                       VALUES (?,?,?,?,?,?,?,?,?,?)""",
                     (
                         record['drug_name'], record['generic_name'], record['reg_number'],
                         record['manufacturer'], record['country_of_origin'],
                         record['dosage_form'], record['therapeutic_category'],
-                        record['approval_date'],
+                        record['approval_date'], record['strength'], record['roa'],
                     )
                 )
                 changed = conn.execute("SELECT changes()").fetchone()[0]

@@ -16,13 +16,14 @@ export default function VerifiedCard({ drug }) {
         <div style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: 4 }}>{drug.drug_name}</div>
       </div>
       <div style={{ padding: '0 20px' }}>
+        <Field label="Active Ingredient" value={drug.generic_name} />
+        <Field label="Strength" value={drug.strength} />
+        <Field label="Route of Admin." value={drug.roa} />
         <Field label="Manufacturer" value={drug.manufacturer} />
         <Field label="Reg. Number" value={drug.reg_number} />
         <Field label="Dosage Form" value={drug.dosage_form} />
         <Field label="Category" value={drug.therapeutic_category} />
-        <Field label="Country" value={drug.country_of_origin} />
         <Field label="Approved" value={drug.approval_date} />
-        {drug.generic_name && <Field label="Generic Name" value={drug.generic_name} />}
       </div>
     </div>
   )
