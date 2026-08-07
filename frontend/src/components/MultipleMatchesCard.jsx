@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import VerifiedCard from './VerifiedCard'
 
+const FALLBACK = "Multiple NAFDAC registrations found. Verify the exact product with your pharmacist or contact NAFDAC: +234 (0) 700-1-623322";
+
 export default function MultipleMatchesCard({ candidates, summary }) {
   const [selected, setSelected] = useState(null)
 
@@ -24,7 +26,7 @@ export default function MultipleMatchesCard({ candidates, summary }) {
         <div style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.05em', opacity: 0.9 }}>⚠ MULTIPLE MATCHES</div>
       </div>
       <div style={{ padding: '16px 20px' }}>
-        {summary && <p style={{ lineHeight: 1.6, marginBottom: 16 }}>{summary}</p>}
+        <p style={{ lineHeight: 1.6, marginBottom: 16 }}>{summary ?? FALLBACK}</p>
         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
           Select the correct product
         </p>

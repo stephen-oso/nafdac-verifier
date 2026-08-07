@@ -9,13 +9,6 @@ router = APIRouter()
 _REG_PATTERN = re.compile(r'^[A-Z0-9]+-\d+$', re.IGNORECASE)
 _DOMINANCE_RATIO = 2.0
 
-# Fallback text is defined here for frontend reference but NOT injected
-# by the backend — when Claude returns None, summary is None.
-_NOT_FOUND_FALLBACK = (
-    "This product was not found in the NAFDAC registry. "
-    "Do not dispense. Contact NAFDAC: +234 (0) 700-1-623322"
-)
-
 
 def _to_drug_record(row: dict) -> DrugRecord:
     return DrugRecord(**{k: v for k, v in row.items() if k != "fts_rank"})

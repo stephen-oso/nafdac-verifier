@@ -14,9 +14,13 @@ export default function SearchInput({ onVerify, loading }) {
 
   const fetchSuggestions = useCallback(async (q) => {
     if (q.length < MIN_CHARS) { setSuggestions([]); return }
-    const data = await searchDrugs(q)
-    setSuggestions(data.results ?? [])
-    setShowSuggestions(true)
+    try {
+      const data = await searchDrugs(q)
+      setSuggestions(data.results ?? [])
+      setShowSuggestions(true)
+    } catch {
+      setSuggestions([])
+    }
   }, [])
 
   useEffect(() => {

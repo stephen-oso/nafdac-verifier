@@ -5,6 +5,10 @@ from contextlib import contextmanager
 
 _REG_PATTERN = re.compile(r'^[A-Z0-9]+-\d+$', re.IGNORECASE)
 
+def _fts_escape(q: str) -> str:
+    """Wrap query in double-quotes and escape internal quotes for FTS5 MATCH."""
+    return '"' + q.replace('"', '""') + '"'
+
 def _db_path() -> str:
     return os.getenv("DB_PATH", "../data/drugs.db")
 
@@ -42,12 +46,12 @@ def fts_search(query: str, limit: int = 5) -> list[dict]:
             ORDER BY drugs_fts.rank
             LIMIT ?
             """,
-            (query, limit)
+            (_fts_escape(query), limit)
         ).fetchall()
     return [dict(r) for r in rows]
 
 def prefix_search(query: str, limit: int = 5) -> list[dict]:
-    fts_query = f"{query}*"
+    fts_query = _fts_escape(query) + " *"
     with _connect() as conn:
         rows = conn.execute(
             """

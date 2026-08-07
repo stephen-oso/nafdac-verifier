@@ -2,7 +2,7 @@ import os
 import anthropic
 from models import ClosestMatch, DrugRecord
 
-_client = anthropic.AsyncAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+_client = anthropic.AsyncAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY"), timeout=5.0)
 _MODEL = "claude-haiku-4-5-20251001"
 _HOTLINE = "+234 (0) 700-1-623322"
 
