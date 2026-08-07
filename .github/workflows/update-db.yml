@@ -1,0 +1,31 @@
+name: Update NAFDAC Drug Database
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'  # Every Sunday at 2am UTC
+  workflow_dispatch:       # Allow manual trigger from GitHub UI
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install scraper dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run scraper
+        run: python data/scrape.py
+
+      - name: Commit updated database
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/drugs.db
+          git diff --cached --quiet || git commit -m "chore: update NAFDAC drug database [$(date -u +%Y-%m-%d)]"
+          git push
