@@ -56,14 +56,15 @@ NAFDAC Verifier v2 expands the existing pharmacist tool into a dual-mode platfor
 
 ```sql
 CREATE TABLE reports (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    drug_query  TEXT NOT NULL,
-    manufacturer TEXT,
-    batch_number TEXT,
-    expiry_date  TEXT,
-    observation  TEXT,
-    location     TEXT,
-    created_at   TEXT NOT NULL  -- ISO 8601, WAT
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    drug_query    TEXT NOT NULL,
+    closest_match TEXT,           -- top closest_match from the /verify response
+    manufacturer  TEXT,
+    batch_number  TEXT,
+    expiry_date   TEXT,
+    observation   TEXT,
+    location      TEXT,
+    created_at    TEXT NOT NULL   -- ISO 8601, WAT
 );
 ```
 
@@ -73,6 +74,7 @@ CREATE TABLE reports (
 ```json
 {
   "drug_query": "Amoxicillin 500mg",
+  "closest_match": "Amoxicillin 500mg Capsules — Emzor — A4-0083",
   "manufacturer": "Emzor",
   "batch_number": "BN2024/0041",
   "expiry_date": "09/2025",
@@ -81,7 +83,7 @@ CREATE TABLE reports (
 }
 ```
 
-All fields except `drug_query` are optional.
+All fields except `drug_query` are optional. `closest_match` is populated automatically by the frontend from the `/verify` response — not entered by the user.
 
 **Flow:**
 1. Validate — `drug_query` must not be empty
@@ -148,7 +150,8 @@ App
  │    └── TypeaheadDropdown  (unchanged)
  ├── ResultCard      (conditional, renders after submit)
  │    ├── VerifiedCard
- │    │    └── ExpiryChecker
+ │    │    ├── ExpiryChecker
+ │    │    └── PhysicalChecklist (community mode only, open by default)
  │    ├── NotFoundCard
  │    │    ├── PhysicalChecklist (collapsed in pharmacist, open in community)
  │    │    └── ReportForm
