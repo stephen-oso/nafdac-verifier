@@ -58,3 +58,10 @@ def test_report_all_optional_fields(test_db):
             "location": "Abuja",
         })
     assert resp.status_code == 200
+
+def test_report_succeeds_when_email_raises(test_db):
+    db.init_reports_table()
+    with patch("routers.report.email_client.send_sf_alert", side_effect=Exception("smtp error")):
+        resp = client.post("/report", json={"drug_query": "Drug Z"})
+    assert resp.status_code == 200
+    assert resp.json()["status"] == "received"

@@ -19,5 +19,8 @@ async def report(request: ReportRequest):
     data = request.model_dump()
     report_id = db.insert_report(data)
     ref = _make_ref(report_id)
-    email_client.send_sf_alert(report_id, data, ref)
+    try:
+        email_client.send_sf_alert(report_id, data, ref)
+    except Exception:
+        pass
     return ReportResponse(status="received", ref=ref)
