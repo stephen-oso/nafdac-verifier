@@ -1,4 +1,5 @@
 import ExpiryChecker from './ExpiryChecker'
+import PhysicalChecklist from './PhysicalChecklist'
 
 function Field({ label, value }) {
   if (!value) return null
@@ -39,6 +40,8 @@ export default function VerifiedCard({ drug, mode }) {
       </div>
 
       <ExpiryChecker mode={mode} />
+
+      {!isPharmacist && <PhysicalChecklist defaultOpen={true} />}
 
       {!isPharmacist && (
         <div style={{ padding: '10px 20px', borderTop: '1px solid var(--border)', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
