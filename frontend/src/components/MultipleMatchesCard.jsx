@@ -3,7 +3,7 @@ import VerifiedCard from './VerifiedCard'
 
 const FALLBACK = "Multiple NAFDAC registrations found. Verify the exact product with your pharmacist or contact NAFDAC: +234 (0) 700-1-623322";
 
-export default function MultipleMatchesCard({ candidates, summary }) {
+export default function MultipleMatchesCard({ candidates, summary, mode }) {
   const [selected, setSelected] = useState(null)
 
   if (selected !== null) {
@@ -15,7 +15,7 @@ export default function MultipleMatchesCard({ candidates, summary }) {
         >
           ← Back to matches
         </button>
-        <VerifiedCard drug={candidates[selected]} />
+        <VerifiedCard drug={candidates[selected]} mode={mode} />
       </div>
     )
   }

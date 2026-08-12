@@ -41,7 +41,7 @@ export default function VerifiedCard({ drug, mode }) {
 
       <ExpiryChecker mode={mode} />
 
-      {!isPharmacist && <PhysicalChecklist defaultOpen={true} />}
+      {!isPharmacist && <PhysicalChecklist defaultOpen={true} collapsible={false} />}
 
       {!isPharmacist && (
         <div style={{ padding: '10px 20px', borderTop: '1px solid var(--border)', fontSize: '0.8rem', color: 'var(--text-muted)' }}>

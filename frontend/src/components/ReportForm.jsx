@@ -6,7 +6,6 @@ const FIELDS = [
   { key: 'manufacturer',  label: 'Manufacturer (optional)',         placeholder: 'As printed on pack' },
   { key: 'batch_number',  label: 'Batch number (optional)',         placeholder: 'From pack label' },
   { key: 'expiry_date',   label: 'Expiry date (optional)',          placeholder: 'MM/YY' },
-  { key: 'location',      label: 'Your location (optional)',        placeholder: 'e.g. Lagos Island' },
 ]
 
 export default function ReportForm({ drugQuery, closestMatch, mode }) {
@@ -44,7 +43,7 @@ export default function ReportForm({ drugQuery, closestMatch, mode }) {
     return (
       <div style={{ padding: '16px 20px', background: '#f0fdf4', borderTop: '1px solid #bbf7d0' }}>
         <p style={{ fontWeight: 700, color: 'var(--green)', fontSize: '0.9rem', margin: 0 }}>
-          Report {ref} sent to NAFDAC.
+          Report #{ref} sent to NAFDAC.
         </p>
         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 4, marginBottom: 0 }}>
           Reference this number if you follow up.
@@ -91,6 +90,19 @@ export default function ReportForm({ drugQuery, closestMatch, mode }) {
         <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textAlign: 'right', margin: '2px 0 0' }}>
           {fields.observation.length}/280
         </p>
+      </div>
+
+      <div style={{ marginBottom: 10 }}>
+        <label style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'block', marginBottom: 4 }}>
+          Your location (optional)
+        </label>
+        <input
+          type="text"
+          placeholder="e.g. Lagos Island"
+          value={fields.location}
+          onChange={(e) => update('location', e.target.value)}
+          style={{ width: '100%', height: 48, border: '1.5px solid var(--border)', borderRadius: 6, padding: '0 12px', fontSize: '0.9rem', fontFamily: 'inherit' }}
+        />
       </div>
 
       {error && (

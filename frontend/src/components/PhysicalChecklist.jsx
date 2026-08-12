@@ -8,7 +8,7 @@ const ITEMS = [
   'No signs of heat or smoke damage?',
 ]
 
-export default function PhysicalChecklist({ defaultOpen = false }) {
+export default function PhysicalChecklist({ defaultOpen = false, collapsible = true }) {
   const [open, setOpen] = useState(defaultOpen)
   const [checked, setChecked] = useState(Array(ITEMS.length).fill(false))
 
@@ -16,30 +16,51 @@ export default function PhysicalChecklist({ defaultOpen = false }) {
     setChecked((prev) => prev.map((v, idx) => (idx === i ? !v : v)))
   }
 
+  const isOpen = collapsible ? open : true
+
   return (
     <div style={{ borderTop: '1px solid var(--border)' }}>
-      <button
-        onClick={() => setOpen((o) => !o)}
-        style={{
-          width: '100%',
-          padding: '14px 20px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: '0.75rem',
-          fontWeight: 700,
-          color: 'var(--text-primary)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-          minHeight: 48,
-          textAlign: 'left',
-        }}
-      >
-        Physical inspection checklist
-        <span style={{ fontSize: '1.1rem', fontWeight: 400 }}>{open ? '−' : '+'}</span>
-      </button>
+      {collapsible ? (
+        <button
+          onClick={() => setOpen((o) => !o)}
+          style={{
+            width: '100%',
+            padding: '14px 20px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            color: 'var(--text-primary)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            minHeight: 48,
+            textAlign: 'left',
+          }}
+        >
+          Physical inspection checklist
+          <span style={{ fontSize: '1.1rem', fontWeight: 400 }}>{open ? '−' : '+'}</span>
+        </button>
+      ) : (
+        <div
+          style={{
+            width: '100%',
+            padding: '14px 20px',
+            display: 'flex',
+            alignItems: 'center',
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            color: 'var(--text-primary)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            minHeight: 48,
+          }}
+        >
+          Physical inspection checklist
+        </div>
+      )}
 
-      {open && (
+      {isOpen && (
         <div style={{ padding: '0 20px 16px' }}>
           {ITEMS.map((item, i) => (
             <label

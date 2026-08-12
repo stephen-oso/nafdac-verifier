@@ -45,7 +45,7 @@ export default function NotFoundCard({ summary, closestMatches, mode, query, clo
         )}
       </div>
 
-      <PhysicalChecklist defaultOpen={isCommunity} />
+      <PhysicalChecklist defaultOpen={isCommunity} collapsible={!isCommunity} />
 
       <ReportForm
         drugQuery={query}

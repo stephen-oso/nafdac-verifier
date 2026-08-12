@@ -19,7 +19,7 @@ export default function AboutPanel({ visible, onClose, scrapeDate }) {
           {scrapeDate && <> Database last updated: <strong>{scrapeDate}</strong>.</>}
         </p>
         <p style={{ marginTop: 12, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-          Questions? Contact NAFDAC: +234 (0) 700-1-623322
+          Questions? Contact NAFDAC: 0800-162-3322
         </p>
       </div>
     </div>

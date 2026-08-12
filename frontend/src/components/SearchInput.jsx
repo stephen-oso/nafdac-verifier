@@ -5,7 +5,7 @@ import TypeaheadDropdown from './TypeaheadDropdown'
 const DEBOUNCE_MS = 300
 const MIN_CHARS = 3
 
-export default function SearchInput({ onVerify, loading }) {
+export default function SearchInput({ onVerify, loading, mode }) {
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
@@ -60,7 +60,7 @@ export default function SearchInput({ onVerify, loading }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
-            placeholder="Drug name or NAFDAC reg. number"
+            placeholder={mode === 'Community' ? 'Type the drug name on your pack' : 'Drug name or NAFDAC reg number'}
             autoComplete="off"
             style={{
               width: '100%',

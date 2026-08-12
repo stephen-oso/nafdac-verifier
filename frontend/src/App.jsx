@@ -51,7 +51,7 @@ export default function App() {
       <AboutPanel visible={showAbout} onClose={() => setShowAbout(false)} scrapeDate={scrapeDate} />
 
       <main style={{ flex: 1, padding: 20, display: 'flex', flexDirection: 'column', gap: 20 }}>
-        <SearchInput onVerify={handleVerify} loading={loading} />
+        <SearchInput onVerify={handleVerify} loading={loading} mode={mode} />
 
         {loading && (
           <p style={{ textAlign: 'center', color: 'var(--text-muted)' }}>Checking registry…</p>
