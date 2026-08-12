@@ -1,3 +1,4 @@
+import html as _html
 import os
 import resend as _resend
 
@@ -10,6 +11,9 @@ def send_sf_alert(report_id: int, data: dict, ref: str) -> bool:
     _resend.api_key = api_key
     to_email = os.getenv("NAFDAC_REPORT_EMAIL", "sf.alert@nafdac.gov.ng")
     from_email = os.getenv("FROM_EMAIL", "noreply@nafdacverifier.com")
+
+    def esc(v) -> str:
+        return _html.escape(str(v)) if v else "Not provided"
 
     drug_query = data.get("drug_query", "")
     location = data.get("location") or "Not provided"
@@ -34,16 +38,16 @@ def send_sf_alert(report_id: int, data: dict, ref: str) -> bool:
   <table style="width:100%;border-collapse:collapse;font-size:0.9rem">
     {cell("Ref No.", ref)}
     {cell("Registry Status", "<strong style='color:#CC0000'>NOT FOUND in NAFDAC DB</strong>")}
-    {cell("Product Name", data.get("drug_query"))}
-    {cell("Closest NAFDAC Match", data.get("closest_match"))}
-    {cell("Manufacturer", data.get("manufacturer"))}
-    {cell("Batch Number", data.get("batch_number"))}
-    {cell("Expiry Date", data.get("expiry_date"))}
-    {cell("Location", data.get("location"))}
+    {cell("Product Name", esc(data.get("drug_query")))}
+    {cell("Closest NAFDAC Match", esc(data.get("closest_match")))}
+    {cell("Manufacturer", esc(data.get("manufacturer")))}
+    {cell("Batch Number", esc(data.get("batch_number")))}
+    {cell("Expiry Date", esc(data.get("expiry_date")))}
+    {cell("Location", esc(data.get("location")))}
   </table>
   <div style="background:#fff7ed;border-left:4px solid #f97316;padding:12px 16px;margin:0">
     <p style="margin:0;font-size:0.8rem;font-weight:700;color:#9a3412">Suspected Issue</p>
-    <p style="margin:4px 0 0;font-size:0.9rem">{data.get("observation") or "No observation provided"}</p>
+    <p style="margin:4px 0 0;font-size:0.9rem">{esc(data.get("observation")) if data.get("observation") else "No observation provided"}</p>
   </div>
   <div style="padding:14px 20px;font-size:0.8rem;color:#6b7280;border-top:1px solid #e5e7eb">
     <p style="margin:0">Reporter: Anonymous (NAFDAC Verifier App)</p>
