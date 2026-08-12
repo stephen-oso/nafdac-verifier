@@ -53,3 +53,32 @@ class HealthResponse(BaseModel):
     status: str
     scrape_date: Optional[str] = None
     drug_count: int
+
+
+class ReportRequest(BaseModel):
+    drug_query: str
+    closest_match: Optional[str] = None
+    manufacturer: Optional[str] = None
+    batch_number: Optional[str] = None
+    expiry_date: Optional[str] = None
+    observation: Optional[str] = None
+    location: Optional[str] = None
+
+    @field_validator("drug_query")
+    @classmethod
+    def drug_query_not_empty(cls, v: str) -> str:
+        if not v.strip():
+            raise ValueError("drug_query cannot be empty")
+        return v.strip()
+
+    @field_validator("observation")
+    @classmethod
+    def observation_max_280(cls, v: Optional[str]) -> Optional[str]:
+        if v and len(v) > 280:
+            raise ValueError("observation cannot exceed 280 characters")
+        return v
+
+
+class ReportResponse(BaseModel):
+    status: str
+    ref: str

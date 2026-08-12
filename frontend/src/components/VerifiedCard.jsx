@@ -1,3 +1,6 @@
+import ExpiryChecker from './ExpiryChecker'
+import PhysicalChecklist from './PhysicalChecklist'
+
 function Field({ label, value }) {
   if (!value) return null
   return (
@@ -8,13 +11,23 @@ function Field({ label, value }) {
   )
 }
 
-export default function VerifiedCard({ drug }) {
+export default function VerifiedCard({ drug, mode }) {
+  const isPharmacist = mode !== 'Community'
+
   return (
     <div style={{ background: 'var(--surface)', borderRadius: 'var(--radius)', boxShadow: 'var(--shadow)', overflow: 'hidden' }}>
       <div style={{ background: 'var(--green)', color: '#fff', padding: '16px 20px' }}>
-        <div style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.05em', opacity: 0.9 }}>✓ VERIFIED</div>
-        <div style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: 4 }}>{drug.drug_name}</div>
+        <div style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.05em', opacity: 0.9 }}>
+          {isPharmacist ? '✓ VERIFIED' : '✓ THIS DRUG IS REGISTERED'}
+        </div>
+        <div style={{ fontSize: '1.2rem', fontWeight: 700, marginTop: 4 }}>{drug.drug_name}</div>
+        {!isPharmacist && (
+          <div style={{ fontSize: '0.78rem', opacity: 0.85, marginTop: 6, lineHeight: 1.45 }}>
+            Registration doesn't guarantee this pack is genuine — check below
+          </div>
+        )}
       </div>
+
       <div style={{ padding: '0 20px' }}>
         <Field label="Active Ingredient" value={drug.generic_name} />
         <Field label="Strength" value={drug.strength} />
@@ -25,6 +38,16 @@ export default function VerifiedCard({ drug }) {
         <Field label="Category" value={drug.therapeutic_category} />
         <Field label="Approved" value={drug.approval_date} />
       </div>
+
+      <ExpiryChecker mode={mode} />
+
+      {!isPharmacist && <PhysicalChecklist defaultOpen={true} collapsible={false} />}
+
+      {!isPharmacist && (
+        <div style={{ padding: '10px 20px', borderTop: '1px solid var(--border)', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          Need help? Call NAFDAC: <strong>0800-162-3322</strong> (toll-free)
+        </div>
+      )}
     </div>
   )
 }

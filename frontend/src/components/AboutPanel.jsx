@@ -52,7 +52,7 @@ export default function AboutPanel({ visible, onClose, scrapeDate }) {
         </div>
 
         <p style={{ marginTop: 20, fontSize: '0.8rem', color: 'var(--text-muted)', borderTop: '1px solid var(--border)', paddingTop: 16 }}>
-          Questions? Contact NAFDAC: +234 (0) 700-1-623322
+          Questions? Contact NAFDAC: 0800-162-3322
         </p>
       </div>
     </div>

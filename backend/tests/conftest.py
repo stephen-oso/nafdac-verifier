@@ -19,6 +19,17 @@ CREATE VIRTUAL TABLE drugs_fts USING fts5(
     content='drugs', content_rowid='id'
 );
 CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT);
+CREATE TABLE reports (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    drug_query    TEXT NOT NULL,
+    closest_match TEXT,
+    manufacturer  TEXT,
+    batch_number  TEXT,
+    expiry_date   TEXT,
+    observation   TEXT,
+    location      TEXT,
+    created_at    TEXT NOT NULL
+);
 """
 
 SEED = """

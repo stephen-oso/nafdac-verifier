@@ -38,3 +38,13 @@ export async function fetchHealth() {
   if (!resp.ok) return null
   return resp.json()
 }
+
+export async function submitReport(data) {
+  const resp = await fetchWithTimeout(`${API_BASE}/report`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  if (!resp.ok) throw new Error('Could not send right now. Call NAFDAC: 0800-162-3322')
+  return resp.json()
+}
