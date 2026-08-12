@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import VerifiedCard from './VerifiedCard'
 
-const FALLBACK = "Multiple NAFDAC registrations found. Verify the exact product with your pharmacist or contact NAFDAC: +234 (0) 700-1-623322";
+const FALLBACK = "Multiple NAFDAC registrations found. Verify the exact product with your pharmacist or contact NAFDAC: 0800-162-3322";
 
 export default function MultipleMatchesCard({ candidates, summary, mode }) {
   const [selected, setSelected] = useState(null)
