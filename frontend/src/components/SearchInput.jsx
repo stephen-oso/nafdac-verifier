@@ -70,7 +70,7 @@ export default function SearchInput({ onVerify, loading, mode }) {
 
   function handleDecode(text) {
     setQuery(text)
-    setTimeout(() => inputRef.current?.focus(), 50)
+    onVerify(text.trim())
   }
 
   return (
