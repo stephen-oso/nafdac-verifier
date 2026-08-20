@@ -105,6 +105,12 @@ export default function BarcodeScanner({ startCamera, snap, snapping, error, onD
           <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: 1.55 }}>{cameraError}</p>
           <button
             style={{ padding: '10px 20px', background: '#008751', color: '#fff', border: 'none', borderRadius: 8, fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
+            onClick={handleDemo}
+          >
+            Use demo number instead
+          </button>
+          <button
+            style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', cursor: 'pointer', padding: 0 }}
             onClick={onClose}
           >
             Dismiss
