@@ -27,7 +27,7 @@ export default function SearchInput({ onVerify, loading, mode }) {
   const debounceRef = useRef(null)
   const wrapperRef = useRef(null)
   const inputRef = useRef(null)
-  const { isOpen, error, open, close, startDecoding } = useBarcodeScanner()
+  const { isOpen, error, snapping, open, close, startCamera, snap } = useBarcodeScanner()
 
   const fetchSuggestions = useCallback(async (q) => {
     if (q.length < MIN_CHARS) { setSuggestions([]); return }
@@ -77,7 +77,9 @@ export default function SearchInput({ onVerify, loading, mode }) {
     <>
       {isOpen && (
         <BarcodeScanner
-          startDecoding={startDecoding}
+          startCamera={startCamera}
+          snap={snap}
+          snapping={snapping}
           error={error}
           onDecode={handleDecode}
           onClose={close}
